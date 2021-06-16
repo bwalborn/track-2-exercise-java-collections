@@ -1,7 +1,11 @@
 package edu.vanderbilt.cs.collections;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @ToDo
@@ -29,6 +33,8 @@ import java.util.List;
  */
 public class AddressBook {
 
+    private  HashMap<String, HashMap<String, String>> addressBook = new HashMap<>();
+
     /**
      *
      * Sets the person's primary phone number in the address book
@@ -39,11 +45,15 @@ public class AddressBook {
      * @param phoneNumber
      */
     public void setPersonPhoneNumber(String personName, String phoneNumber){
-
+        HashMap<String, String> map = new HashMap<>();
+        map.put("phoneNumber", phoneNumber);
+        addressBook.put(personName, map);
     }
 
     public String getPersonPhoneNumber(String personName){
-        return null;
+
+        String i = ((HashMap<String, String>)addressBook.get(personName)).get("phoneNumber");
+        return addressBook.get(personName).get("phoneNumber");
     }
 
     /**
@@ -58,11 +68,14 @@ public class AddressBook {
      * @param phoneNumber
      */
     public void setPersonPhoneNumber(String personName, String phoneType, String phoneNumber){
-
+        HashMap<String, String> map = new HashMap<>();
+        map.put(phoneType, phoneNumber);
+        addressBook.put(personName, map);
     }
 
     public String getPersonPhoneNumber(String personName, String phoneType){
-        return null;
+        // return ((HashMap<String, String>)addressBook.get(personName)).get(phoneType); //.toString()
+        return addressBook.get(personName).get(phoneType);
     }
 
     /**
@@ -74,11 +87,14 @@ public class AddressBook {
      * @param email
      */
     public void setPersonEmail(String personName, String email){
-
+        HashMap<String, String> map = new HashMap<>();
+        map.put("email", email);
+        addressBook.put(personName, map);
     }
 
     public String getPersonEmail(String personName){
-        return null;
+        // return ((HashMap<String, String>)addressBook.get(personName)).get("email").toString();
+        return addressBook.get(personName).get("email");
     }
 
     /**
@@ -94,11 +110,14 @@ public class AddressBook {
      * @param data
      */
     public void setPersonNote(String personName, String noteType, String data){
-
+        HashMap<String, String> map = new HashMap<>();
+        map.put(noteType, data);
+        addressBook.put(personName, map);
     }
 
     public String getPersonNote(String personName, String noteType){
-        return null;
+        // return ((HashMap<String, String>)addressBook.get(personName)).get(noteType).toString();
+        return addressBook.get(personName).get(noteType);
     }
 
     /**
@@ -109,11 +128,14 @@ public class AddressBook {
      * @param age
      */
     public void setPersonAge(String personName, int age){
-
+        HashMap<String, String> map = new HashMap<>();
+        map.put("age", String.valueOf(age));
+        addressBook.put(personName, map);
     }
 
     public Integer getPersonAge(String personName){
-        return null;
+        String AgeValue = ((HashMap<String, String>)addressBook.get(personName)).get("age");
+        return Integer.parseInt(AgeValue);
     }
 
     /**
@@ -122,7 +144,12 @@ public class AddressBook {
      * @return
      */
     public String[] listNames(){
-        return null;
+        // String[] allNamesInAddressBook = new String[addressBook.keySet().size()];
+        // int i = 0;
+        // for(String key : addressBook.keySet()){
+        //     allNamesInAddressBook[i++] = key;
+        // }    
+        return addressBook.keySet().toArray(new String[0]);  // or  (String[]) addressBook.keySet().toArray();
     }
 
     /**
@@ -144,7 +171,13 @@ public class AddressBook {
      * @return
      */
     public List namesThatStartWith(String prefix){
-        return null;
+        if(prefix == null){
+            return new ArrayList<>(addressBook.keySet());
+        }
+      
+        return addressBook.entrySet().stream().filter(map -> map.getKey()
+                                    .substring(0,prefix.length()).equals(prefix)) 
+                                                .collect(Collectors.toList());  
     }
 
 
