@@ -46,13 +46,15 @@ public class AddressBook {
      */
     public void setPersonPhoneNumber(String personName, String phoneNumber){
         HashMap<String, String> map = new HashMap<>();
-        map.put("phoneNumber", phoneNumber);
-        addressBook.put(personName, map);
+        if(addressBook.containsKey(personName)){
+            addressBook.get(personName).put("phoneNumber", phoneNumber);
+        } else {
+            map.put("phoneNumber", phoneNumber);
+            addressBook.put(personName, map);
+        }
     }
 
     public String getPersonPhoneNumber(String personName){
-
-        String i = ((HashMap<String, String>)addressBook.get(personName)).get("phoneNumber");
         return addressBook.get(personName).get("phoneNumber");
     }
 
@@ -69,12 +71,15 @@ public class AddressBook {
      */
     public void setPersonPhoneNumber(String personName, String phoneType, String phoneNumber){
         HashMap<String, String> map = new HashMap<>();
-        map.put(phoneType, phoneNumber);
-        addressBook.put(personName, map);
+        if(addressBook.containsKey(personName)){
+            addressBook.get(personName).put(phoneType, phoneNumber);
+        } else {
+            map.put(phoneType, phoneNumber);
+            addressBook.put(personName, map);
+        }
     }
 
     public String getPersonPhoneNumber(String personName, String phoneType){
-        // return ((HashMap<String, String>)addressBook.get(personName)).get(phoneType); //.toString()
         return addressBook.get(personName).get(phoneType);
     }
 
@@ -88,8 +93,12 @@ public class AddressBook {
      */
     public void setPersonEmail(String personName, String email){
         HashMap<String, String> map = new HashMap<>();
-        map.put("email", email);
-        addressBook.put(personName, map);
+        if(addressBook.containsKey(personName)){
+            addressBook.get(personName).put("email", email);
+        } else {
+            map.put("email", email);
+            addressBook.put(personName, map);
+        }
     }
 
     public String getPersonEmail(String personName){
@@ -111,12 +120,15 @@ public class AddressBook {
      */
     public void setPersonNote(String personName, String noteType, String data){
         HashMap<String, String> map = new HashMap<>();
-        map.put(noteType, data);
-        addressBook.put(personName, map);
+        if(addressBook.containsKey(personName)){
+            addressBook.get(personName).put(noteType, data);
+        } else {
+            map.put(noteType, data);
+            addressBook.put(personName, map);
+        }
     }
 
     public String getPersonNote(String personName, String noteType){
-        // return ((HashMap<String, String>)addressBook.get(personName)).get(noteType).toString();
         return addressBook.get(personName).get(noteType);
     }
 
@@ -129,13 +141,16 @@ public class AddressBook {
      */
     public void setPersonAge(String personName, int age){
         HashMap<String, String> map = new HashMap<>();
-        map.put("age", String.valueOf(age));
-        addressBook.put(personName, map);
+        if(addressBook.containsKey(personName)){
+            addressBook.get(personName).put("age", String.valueOf(age));
+        } else {
+            map.put("age", String.valueOf(age));
+            addressBook.put(personName, map);
+        }
     }
 
     public Integer getPersonAge(String personName){
-        String AgeValue = ((HashMap<String, String>)addressBook.get(personName)).get("age");
-        return Integer.parseInt(AgeValue);
+        return Integer.parseInt(addressBook.get(personName).get("age"));
     }
 
     /**
@@ -144,11 +159,6 @@ public class AddressBook {
      * @return
      */
     public String[] listNames(){
-        // String[] allNamesInAddressBook = new String[addressBook.keySet().size()];
-        // int i = 0;
-        // for(String key : addressBook.keySet()){
-        //     allNamesInAddressBook[i++] = key;
-        // }    
         return addressBook.keySet().toArray(new String[0]);  // or  (String[]) addressBook.keySet().toArray();
     }
 
