@@ -1,10 +1,12 @@
 package edu.vanderbilt.cs.collections;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 /**
@@ -55,7 +57,10 @@ public class AddressBook {
     }
 
     public String getPersonPhoneNumber(String personName){
-        return addressBook.get(personName).get("phoneNumber");
+        if(addressBook.containsKey(personName) && addressBook.get(personName).containsKey("phoneNumber"))
+            return addressBook.get(personName).get("phoneNumber");
+        
+        return null;
     }
 
     /**
@@ -80,7 +85,10 @@ public class AddressBook {
     }
 
     public String getPersonPhoneNumber(String personName, String phoneType){
-        return addressBook.get(personName).get(phoneType);
+        if(addressBook.get(personName).get(phoneType) != null)
+            return addressBook.get(personName).get(phoneType);
+
+        return null;
     }
 
     /**
@@ -102,8 +110,11 @@ public class AddressBook {
     }
 
     public String getPersonEmail(String personName){
-        // return ((HashMap<String, String>)addressBook.get(personName)).get("email").toString();
-        return addressBook.get(personName).get("email");
+        // if(addressBook.containsKey(personName) && addressBook.get(personName).containsKey("email"))
+        if(addressBook.get(personName).get("email") != null)
+            return addressBook.get(personName).get("email");
+        
+        return null;
     }
 
     /**
@@ -129,7 +140,10 @@ public class AddressBook {
     }
 
     public String getPersonNote(String personName, String noteType){
-        return addressBook.get(personName).get(noteType);
+        if(addressBook.get(personName).containsKey(noteType))
+            return addressBook.get(personName).get(noteType);
+
+        return null;
     }
 
     /**
@@ -150,7 +164,10 @@ public class AddressBook {
     }
 
     public Integer getPersonAge(String personName){
-        return Integer.parseInt(addressBook.get(personName).get("age"));
+        if(addressBook.containsKey(personName) && addressBook.get(personName).containsKey("age"))
+            return Integer.parseInt(addressBook.get(personName).get("age"));
+        
+        return null;
     }
 
     /**
@@ -184,10 +201,13 @@ public class AddressBook {
         if(prefix == null){
             return new ArrayList<>(addressBook.keySet());
         }
-      
+
+        // return addressBook.entrySet().stream().filter(map -> map.getKey()
+        //                             .substring(0, prefix.length()).equals(prefix))
+        //                                         .map(Map.Entry::getKey).findFirst().orElse(null);
         return addressBook.entrySet().stream().filter(map -> map.getKey()
-                                    .substring(0,prefix.length()).equals(prefix)) 
-                                                .collect(Collectors.toList());  
+                                        .substring(0, prefix.length()).equals(prefix))
+                                                    .map(Map.Entry::getKey).collect(Collectors.toList());
     }
 
 
